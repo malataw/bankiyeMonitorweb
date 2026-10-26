@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BankiyeMonitor — SMS Parsing & Security Intelligence for Ethiopian Banking</title>
+  <meta name="description" content="BankiyeMonitor protects bank users in Wolaita Sodo by verifying sender IDs, detecting unauthorized device logins, and transforming scattered SMS alerts into a clear, scheduled Executive Summary.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb', // Primary
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            },
+            emerald: {
+              500: '#10B981', // Secondary
+              600: '#059669',
+            },
+            amber: {
+              500: '#F59E0B', // Accent
+              600: '#D97706',
+            },
+            dark: {
+              bg: '#090D16',
+              surface: '#0F172A',
+              card: '#131D31',
+              border: 'rgba(255, 255, 255, 0.08)'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen text-slate-800 dark:text-slate-100 bg-[#F8FAFC] dark:bg-[#090D16] selection:bg-blue-600 selection:text-white transition-colors duration-300">
+
+  <!-- Background Glowing Meshes -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="bg-mesh mesh-blue w-[600px] h-[600px] -top-40 -left-40"></div>
+    <div class="bg-mesh mesh-green w-[500px] h-[500px] top-[40%] -right-40"></div>
+    <div class="bg-mesh mesh-amber w-[450px] h-[450px] bottom-20 left-[20%]"></div>
+  </div>
+
+  <!-- ========================================================================
+       1. NAVIGATION BAR
+       ======================================================================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo with Provided Shield Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 p-1 flex items-center justify-center transform group-hover:scale-105 transition-transform">
+            <img src="assets/logo.png" alt="BankiyeMonitor Logo" class="w-full h-full object-contain drop-shadow-md">
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center">
+              Bankiye<span class="text-blue-600 dark:text-blue-400">Monitor</span>
+            </span>
+            <span class="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest -mt-1">SMS Security & Intelligence</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7">
+          <a href="#problem" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Problem</a>
+          <a href="#solution" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Solution</a>
+          <a href="#engine" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Intelligence Engine</a>
+          <a href="#scheduler" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Scheduler</a>
+          <a href="#banks" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Banks</a>
+          <a href="#who-it-helps" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Who It Helps</a>
+          <a href="#faq" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">FAQ</a>
+        </nav>
+
+        <!-- Right Action Buttons -->
+        <div class="hidden md:flex items-center gap-4">
+          <!-- Dark/Light Theme Toggle -->
+          <button id="theme-toggle" aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <svg class="theme-sun-icon w-5 h-5 text-amber-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="theme-moon-icon w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+
+          <!-- Highlighted Beta Download Button -->
+          <a href="#download" class="open-download-modal inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-primary text-sm font-semibold tracking-wide shadow-lg group">
+            <svg class="w-4 h-4 text-emerald-300" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+            </svg>
+            <span>Download Beta</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-white/20 text-white badge-shimmer">v1.0</span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <div class="flex items-center gap-2 lg:hidden">
+          <button id="theme-toggle-mobile" aria-label="Toggle theme" class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300">
+            <svg class="theme-sun-icon w-4 h-4 text-amber-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="theme-moon-icon w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+          
+          <button id="mobile-menu-btn" aria-label="Open navigation menu" class="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3">
+      <a href="#problem" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">The Problem</a>
+      <a href="#solution" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">The Solution</a>
+      <a href="#engine" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Intelligence Engine</a>
+      <a href="#scheduler" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Alert Scheduler</a>
+      <a href="#banks" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Wolaita Sodo Banks</a>
+      <a href="#who-it-helps" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Who It Helps</a>
+      <a href="#faq" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">FAQ</a>
+      <div class="pt-2">
+        <a href="#download" class="open-download-modal w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl btn-primary font-bold text-sm">
+          Download Beta APK (v1.0)
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. HERO SECTION (WOLAITA SODO SECURITY FOCUS)
+       ======================================================================== -->
+  <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Hero Text Content (Left Col) -->
+        <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+          
+          <!-- Trust Pill -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full hero-badge">
+            <span class="flex h-2 w-2 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            <span>Built for Banks in Wolaita Sodo</span>
+            <span class="text-slate-300 dark:text-slate-600">•</span>
+            <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">SMS Parsing & Security Gatekeeper</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+            Turn Chaotic Bank SMS into a <span class="gradient-text-primary">Weekly Executive Summary</span> & Security Shield
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            Banks in Wolaita Sodo rely on raw SMS that hackers can easily spoof. BankiyeMonitor applies strict lexical analysis to verify sender IDs, detect unauthorized logins, flag social engineering, and compile your entire bank activity into an actionable, scheduled executive summary.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#download" class="open-download-modal w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl btn-primary text-base font-bold shadow-xl shadow-blue-500/25">
+              <svg class="w-5 h-5 text-emerald-300" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+              </svg>
+              <span>Download Beta APK</span>
+              <span class="px-2 py-0.5 rounded-md bg-white/20 text-xs font-semibold">Free</span>
+            </a>
+
+            <button class="open-demo-modal w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl btn-secondary text-base font-semibold">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+              </svg>
+              <span>Watch Security Demo</span>
+            </button>
+          </div>
+
+          <!-- Trust Indicators Row -->
+          <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-xs font-bold text-slate-900 dark:text-white">Spoof Detection</p>
+                <p class="text-[11px] text-slate-500">Sender ID whitelist check</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-xs font-bold text-slate-900 dark:text-white">100% On-Device</p>
+                <p class="text-[11px] text-slate-500">Zero data sent to cloud</p>
+              </div>
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-xs font-bold text-slate-900 dark:text-white">Alert Scheduler</p>
+                <p class="text-[11px] text-slate-500">Daily / Weekly / Monthly</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hero Visual (Right Col - Realistic Phone Mockup) -->
+        <div class="lg:col-span-5 relative flex justify-center items-center">
+          
+          <!-- Ambient Glow Backdrop -->
+          <div class="absolute w-72 h-72 bg-gradient-to-tr from-blue-600 to-emerald-400 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+
+          <!-- Dynamic Floating Incoming SMS Banner -->
+          <div id="hero-incoming-toast" class="absolute -top-6 left-1/2 -translate-x-1/2 sm:-left-6 sm:translate-x-0 z-30 w-full max-w-xs pointer-events-none">
+            <!-- Dynamically populated by js/app.js -->
+          </div>
+
+          <!-- Realistic Android Phone Frame -->
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              
+              <!-- Dynamic Notch -->
+              <div class="phone-notch">
+                <div class="phone-sensor"></div>
+                <div class="phone-lens"></div>
+              </div>
+
+              <!-- Android Status Bar -->
+              <div class="pt-2 px-6 flex justify-between items-center text-[11px] font-semibold text-slate-700 dark:text-slate-300 z-40 select-none">
+                <span>09:41</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] text-slate-400">Ethio Telecom</span>
+                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                  <div class="w-4 h-2 rounded-sm border border-current p-0.5 flex items-center">
+                    <div class="h-full w-full bg-current rounded-2xs"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Main Mockup Screen Body -->
+              <div class="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-3 pt-3">
+                
+                <!-- App Header with Shield Logo -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <img src="assets/logo.png" alt="BM" class="w-7 h-7 object-contain">
+                    <div>
+                      <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Wolaita Sodo Portal</span>
+                      <h3 class="text-xs font-extrabold text-slate-900 dark:text-white">Security Shield Active</h3>
+                    </div>
+                  </div>
+                  <div class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Protected
+                  </div>
+                </div>
+
+                <!-- Executive Summary Highlight Card -->
+                <div class="rounded-xl p-3 bg-gradient-to-br from-blue-600 to-indigo-800 text-white shadow-md">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="font-medium text-blue-200">Weekly Executive Summary</span>
+                    <span class="text-emerald-300 font-bold">Oct 20-26</span>
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-[10px] text-blue-200 block">Total Net Volume</span>
+                    <span class="text-xl font-extrabold text-white">ETB 84,350.50</span>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 mt-2 pt-2 border-t border-white/10 text-[10px]">
+                    <div>
+                      <span class="text-blue-200 block">Inflow</span>
+                      <span class="font-bold text-emerald-300">ETB 65K</span>
+                    </div>
+                    <div>
+                      <span class="text-blue-200 block">Outflow</span>
+                      <span class="font-bold text-amber-300">ETB 24K</span>
+                    </div>
+                    <div>
+                      <span class="text-blue-200 block">Logins</span>
+                      <span class="font-bold text-rose-300">4 (1 flagged)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Security Events Alert Banner -->
+                <div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800/60 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-lg bg-rose-500 text-white flex items-center justify-center text-xs font-bold">!</div>
+                    <div>
+                      <p class="text-[11px] font-bold text-rose-800 dark:text-rose-200">1 Spoofed SMS Blocked</p>
+                      <p class="text-[9px] text-rose-600 dark:text-rose-400">Fake CBE sender quarantined</p>
+                    </div>
+                  </div>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500 text-white">SHIELD</span>
+                </div>
+
+                <!-- Active Sessions Breakdown -->
+                <div class="p-2.5 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/60 shadow-sm">
+                  <div class="flex justify-between text-[10px] font-bold text-slate-500 mb-1.5">
+                    <span>Active Banking Sessions</span>
+                    <span class="text-blue-600 dark:text-blue-400">2 Devices</span>
+                  </div>
+                  <div class="space-y-1 text-[10px]">
+                    <div class="flex justify-between text-slate-700 dark:text-slate-300">
+                      <span>• Android (Tecno Camon 20)</span>
+                      <span class="text-emerald-500 font-bold">Current</span>
+                    </div>
+                    <div class="flex justify-between text-slate-700 dark:text-slate-300">
+                      <span>• Chrome / Windows (Sodo Cyber)</span>
+                      <span class="text-rose-500 font-bold">Flagged 09:42 AM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Counterparties Mini List -->
+                <div class="space-y-1.5 pt-1">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Top Counterparties This Week</span>
+
+                  <div class="p-2 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
+                    <div>
+                      <p class="text-[11px] font-bold text-slate-900 dark:text-white leading-tight">Ethiopian Airlines Salary</p>
+                      <p class="text-[9px] text-emerald-500 font-semibold">CBE • Verified Sender ID</p>
+                    </div>
+                    <span class="text-[11px] font-extrabold text-emerald-600">+ETB 35,000</span>
+                  </div>
+
+                  <div class="p-2 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
+                    <div>
+                      <p class="text-[11px] font-bold text-slate-900 dark:text-white leading-tight">Kaldi's Coffee (Merchant)</p>
+                      <p class="text-[9px] text-sky-500 font-semibold">Telebirr • Verified Sender ID</p>
+                    </div>
+                    <span class="text-[11px] font-extrabold text-slate-900 dark:text-white">-ETB 480.00</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Bottom Nav Bar -->
+              <div class="h-12 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 flex justify-around items-center text-slate-400 text-xs px-2">
+                <div class="flex flex-col items-center text-blue-600 dark:text-blue-400">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                  <span class="text-[9px] font-bold">Summary</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                  <span class="text-[9px]">Security</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span class="text-[9px]">Schedule</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                  <span class="text-[9px]">Settings</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. PROBLEM STATEMENT (WOLAITA SODO CONTEXT)
+       ======================================================================== -->
+  <section id="problem" class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-rose-500 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-full">
+          The Problem in Wolaita Sodo
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Raw SMS Alerts are Insufficient for Modern Banking Security
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Banks in Wolaita Sodo currently rely on standard, unstructured SMS alerts. Hackers exploit this blind spot with fake USSDs, spoofed sender names, and credential stuffing—and the bank's alert system treats fraudulent logins the exact same as legitimate ones.
+        </p>
+      </div>
+
+      <!-- Problem Breakdown 4-Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm relative overflow-hidden group">
+          <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Spoofed Sender Names</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Scammers trivially fake sender display names (e.g., mimicking "Dashen Bank" or "CBE"). Users have no way to tell if a text is genuinely from their bank or a scammer.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm relative overflow-hidden group">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Unflagged Fraudulent Logins</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Standard bank alerts treat a hacker logging in from an unrecognized computer the exact same as the real account owner logging in. Suspicious activity is visually indistinguishable.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm relative overflow-hidden group">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Buried Critical Alerts</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Crucial security notifications (like unauthorized password resets) get buried under hundreds of routine "transfer received" messages, escaping notice until funds are gone.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm relative overflow-hidden group">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">No Contextual Structure</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Bank SMS arrives as unstructured free-form text that differs by bank. Users cannot turn a pile of individual texts into a clear picture of what is actually happening on their accounts.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Deeper Technical Challenge Box -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div class="space-y-2 max-w-3xl">
+            <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">The Deeper Technical Challenge</span>
+            <h3 class="text-xl sm:text-2xl font-bold">Unstructured Free-Form Text + Trivial Sender Spoofing</h3>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Every bank in Wolaita Sodo uses different wording, Amharic syntax, decimal separators, and shortcodes. Because SMS protocol does not cryptographically authenticate sender IDs on consumer phones, scammers can impersonate financial institutions with zero resistance.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-center flex-shrink-0 w-full lg:w-auto">
+            <span class="text-[10px] text-slate-400 block font-semibold">AVERAGE MONTHLY ALERTS</span>
+            <span class="text-2xl font-extrabold text-white">120+ Texts</span>
+            <span class="text-[10px] text-rose-400 block mt-1 font-bold">0% Security Filtering</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. THE SOLUTION: SMS PARSING & AGGREGATION SYSTEM
+       ======================================================================== -->
+  <section id="solution" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
+          The Solution
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          What If You Received a Weekly Executive Summary?
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Instead of a chaotic feed of individual texts, BankiyeMonitor applies strict lexical analysis to extract structured fields and deliver a clear synthesized dashboard.
+        </p>
+      </div>
+
+      <!-- 6 Synthesized Report Fields Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center font-bold text-sm">01</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Attempted Logins & Timestamps</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Tracks every login notification, records exact timestamps, and highlights multiple attempts within short intervals (brute-force defense).
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center font-bold text-sm">02</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Password Reset Requests</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Instantly flags any password reset initiation, separating urgent credential change requests from routine balance texts.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold text-sm">03</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Active Devices & Sessions</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Extracts device ID and browser session tokens to identify if an unrecognized phone or desktop is currently logged in.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold text-sm">04</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Total Transferred (Aggregated)</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Sums all outbound money transfers, debit card purchases, and utility payments across weekly and monthly schedules.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-teal-500/10 text-teal-600 flex items-center justify-center font-bold text-sm">05</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Total Received (Aggregated)</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Consolidates incoming salaries, peer-to-peer transfers, and merchant sales into clean net inflow calculations.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center font-bold text-sm">06</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Summary of Counterparties</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Generates a ranked breakdown of accounts sent to and received from, so you know exactly who you transacted with most.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. PARSING COMPONENT: THE INTELLIGENCE ENGINE (4 PILLARS)
+       ======================================================================== -->
+  <section id="engine" class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-full">
+          The Intelligence Engine
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Not Just a Text Reader — A Security Gatekeeper
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          The parser is the foundational intelligence layer that makes every feature possible, solving four critical technical challenges.
+        </p>
+      </div>
+
+      <!-- 4 Technical Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="p-8 rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-md relative overflow-hidden">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">Challenge 01</span>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Spoof Detection & Sender Verification</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            Rather than trusting the display name (which scammers can easily fake), the parser maintains a whitelist of verified sender IDs for each bank in Wolaita Sodo. Every incoming SMS is checked against this whitelist before it is processed, ensuring that a message claiming to be from "Dashen Bank" actually came from Dashen Bank's official SMS gateway—not a scammer's spoofed number.
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 font-mono text-[11px] text-slate-600 dark:text-slate-300">
+            ✓ Whitelist Check: Sender ID ➔ Verified Gateway OR Quarantine
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="p-8 rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-md relative overflow-hidden">
+          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7zm0 4h16m-7 4h4"/></svg>
+          </div>
+          <span class="text-xs font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block mb-1">Challenge 02</span>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Unstructured to Structured Data Transformation</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            The parser applies grammar rules and pattern matching to convert messy, human-readable SMS text into clean, machine-readable structured data:
+          </p>
+          <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-400 mb-4">
+            <li>• <strong>Amount:</strong> Handles ETB, decimals, and comma thousands separators</li>
+            <li>• <strong>Transaction Type:</strong> Debit, credit, login, device change, password reset</li>
+            <li>• <strong>Counterparty:</strong> The account or entity you transacted with</li>
+            <li>• <strong>Timestamp:</strong> Standardized to consistent ISO format</li>
+            <li>• <strong>Device/Session:</strong> Extracted for security events</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="p-8 rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-md relative overflow-hidden">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <span class="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block mb-1">Challenge 03</span>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">On-Device Privacy & Security</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            All parsing and data extraction happens entirely on the user's Android device. Raw SMS messages are never sent to a third-party server, ensuring that sensitive financial data remains under the user's complete control. This privacy-first approach builds trust and complies with financial data protection standards.
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">
+            ✓ 0 KB Network Upload • 100% On-Device Lexical Analysis
+          </div>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="p-8 rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-md relative overflow-hidden">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.038 8.038 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+          <span class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block mb-1">Challenge 04</span>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Adaptive Bank Format Handling</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            Different banks in Wolaita Sodo use different wording and message structures. The parser uses a configurable rule engine that allows each bank's specific message format to be defined and updated without requiring an app update. When a bank tweaks their SMS template, the parser adapts instantly—no waiting for Play Store approvals.
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 font-mono text-[11px] text-slate-600 dark:text-slate-300">
+            ✓ Dynamic Grammar Rules: Instant Template Updates
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       6. ALERT SCHEDULER SECTION (INTERACTIVE DEMO)
+       ======================================================================== -->
+  <section id="scheduler" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
+          Tailored Delivery
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          The Alert Scheduler: Tailored to Your Volume
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Beyond the live summary, BankiyeMonitor includes an Alert Scheduler that pushes synthesized insights based on your exact financial habits.
+        </p>
+      </div>
+
+      <!-- Scheduler Interactive Selector & Preview -->
+      <div class="max-w-4xl mx-auto rounded-3xl bg-slate-900 text-white p-6 sm:p-10 border border-slate-800 shadow-2xl">
+        
+        <!-- Frequency Selector Buttons -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
+          <button data-freq="daily" class="scheduler-freq-btn px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:text-white transition">
+            Daily
+            <span class="block text-[10px] font-normal text-slate-400 mt-0.5">High-volume business</span>
+          </button>
+          <button data-freq="weekly" class="scheduler-freq-btn px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md transition">
+            Weekly
+            <span class="block text-[10px] font-normal text-blue-200 mt-0.5">Standard personal</span>
+          </button>
+          <button data-freq="monthly" class="scheduler-freq-btn px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:text-white transition">
+            Monthly
+            <span class="block text-[10px] font-normal text-slate-400 mt-0.5">Low-activity savers</span>
+          </button>
+          <button data-freq="yearly" class="scheduler-freq-btn px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:text-white transition">
+            Yearly
+            <span class="block text-[10px] font-normal text-slate-400 mt-0.5">Tax & audit reports</span>
+          </button>
+        </div>
+
+        <!-- Live Digest Preview Box -->
+        <div id="scheduler-preview" class="p-5 rounded-2xl bg-slate-950 border border-slate-800">
+          <!-- Dynamically populated by js/app.js (initAlertSchedulerDemo) -->
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       7. PROBLEMS THIS SYSTEM SOLVES (6 CORE ADVANTAGES)
+       ======================================================================== -->
+  <section class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-full">
+          Comprehensive Defense
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          6 Critical Vulnerabilities Solved
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          From social engineering to sender spoofing, see how the lexical parser protects banking customers in Wolaita Sodo.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Early Hacking Attempts</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            By parsing and flagging "login" and "password reset" SMS alerts, the system highlights brute-force or credential-stuffing attacks before funds are stolen.
+          </p>
+        </div>
+
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Unauthorized Access</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            The parser specifically extracts "device ID" and "session" tokens from bank texts, alerting users immediately if an unrecognized browser or phone logs in.
+          </p>
+        </div>
+
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Social Engineering Mitigation</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Semantic analysis detects urgency-based language (e.g., "OTP," "verify," "link expired") and flags these messages as high-risk, separating them from routine updates.
+          </p>
+        </div>
+
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Spoofed SMS Identification</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            By verifying sender IDs against a maintained whitelist, the system distinguishes genuine bank messages from impersonation attempts that display fake names.
+          </p>
+        </div>
+
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Information Overload</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            The parser transforms hundreds of individual, forgettable SMS messages into a single, actionable weekly summary so users never miss a critical security event.
+          </p>
+        </div>
+
+        <div class="feature-card p-6 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.038 8.038 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Adaptability Without Friction</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            The configurable rule engine adapts to each bank's specific wording, so the system works reliably across all banks in Wolaita Sodo without requiring constant app updates.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       8. WHO IT CAN HELP SECTION (5 AUDIENCE SEGMENTS)
+       ======================================================================== -->
+  <section id="who-it-helps" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
+          Ecosystem Impact
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Who BankiyeMonitor Helps
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Designed for everyone from local merchant shopkeepers to commercial bank compliance teams.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center font-bold mb-4">🏪</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Business Owners</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              With a high influx of daily transfers, business owners cannot manually sift through hundreds of SMS. This parser summarizes cash flow, ensuring a single suspicious 500 ETB transfer doesn't get lost among 50 legitimate 500 ETB transfers.
+            </p>
+          </div>
+          <span class="mt-4 text-[11px] font-semibold text-blue-600 dark:text-blue-400">Cash flow protection →</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center font-bold mb-4">🛡</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Personal Accounts Vulnerable to Scams</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              Individuals who are less tech-savvy often fall victim to social engineering. The parser acts as a "second set of eyes," distilling complex security alerts into simple, understandable warnings.
+            </p>
+          </div>
+          <span class="mt-4 text-[11px] font-semibold text-rose-500">Phishing defense →</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold mb-4">📱</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">High Volume SMS Recipients</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              Users who receive dozens of bank messages daily can no longer tell which messages matter. The parser ensures they never miss a critical security alert hidden among routine notifications.
+            </p>
+          </div>
+          <span class="mt-4 text-[11px] font-semibold text-amber-500">Zero message fatigue →</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold mb-4">🏦</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Commercial Banks</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              By integrating this parser as a value-added service (or API), banks in Wolaita Sodo demonstrate commitment to user security, increasing customer trust, reducing fraud losses, and handling evolving SMS templates effortlessly.
+            </p>
+          </div>
+          <span class="mt-4 text-[11px] font-semibold text-emerald-600">Enterprise value-add →</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between lg:col-span-2">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center font-bold mb-4">⚙</div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">The Rest of BankiyeMonitor's System</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              This parsing component is the foundation every other feature depends on. Real-time alerts, executive summaries, anomaly detection, and the visual dashboard all rely on the clean, structured data this lexical parser provides.
+            </p>
+          </div>
+          <span class="mt-4 text-[11px] font-semibold text-indigo-600">Core architectural pipeline →</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       9. LIVE SMS PARSER & SPOOF DETECTOR PLAYGROUND
+       ======================================================================== -->
+  <section class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
+          Interactive Security Sandbox
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Test the Parser & Spoof Detector in Real-Time
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Try authentic templates from Wolaita Sodo banks—or test a simulated phishing SMS to watch the sender ID whitelist quarantine it in sub-milliseconds.
+        </p>
+      </div>
+
+      <!-- Playground Console Terminal -->
+      <div class="terminal-window p-6 sm:p-8 max-w-4xl mx-auto">
+        
+        <!-- Bank Sample Selectors -->
+        <div class="flex flex-wrap items-center gap-2 mb-6">
+          <span class="text-xs font-semibold text-slate-400 mr-2">Sample Templates:</span>
+          <button data-bank="cbe" class="sms-sample-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:border-blue-500 transition ring-2 ring-blue-500 bg-blue-500/10">
+            CBE Salary Credit
+          </button>
+          <button data-bank="dashen_login" class="sms-sample-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:border-blue-500 transition">
+            Dashen — New Device Login
+          </button>
+          <button data-bank="spoofed" class="sms-sample-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-900/40 text-rose-300 border border-rose-700 hover:border-rose-500 transition">
+            ⚠ Spoofed Phishing SMS
+          </button>
+          <button data-bank="telebirr" class="sms-sample-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:border-blue-500 transition">
+            Telebirr Merchant Pay
+          </button>
+        </div>
+
+        <!-- SMS Input Box -->
+        <div class="mb-4">
+          <label for="sms-input-text" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Raw Bank SMS Input</label>
+          <textarea id="sms-input-text" rows="3" class="w-full text-xs sm:text-sm font-mono p-4 rounded-xl bg-slate-950 text-slate-200 border border-slate-800 focus:outline-none focus:border-blue-500 transition leading-relaxed" placeholder="Paste or type any bank SMS here..."></textarea>
+        </div>
+
+        <div class="flex justify-end mb-6">
+          <button id="run-parse-btn" class="px-6 py-2.5 rounded-xl btn-primary text-xs font-bold flex items-center gap-2 shadow-lg">
+            <svg class="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Run Lexical Parser & Verification
+          </button>
+        </div>
+
+        <!-- Parsed Structured Output Container -->
+        <div id="parse-result-output" class="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800">
+          <!-- Dynamically populated by js/app.js -->
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       10. APPLICATION SHOWCASE (INTERACTIVE SCREEN VIEWER)
+       ======================================================================== -->
+  <section class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-full">
+          App Interface
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Explore the Android Security & Summary UI
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Switch tabs below to view the Executive Summary dashboard, transaction ledger with verification tags, and security scores.
+        </p>
+      </div>
+
+      <!-- Screen Switcher Tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <button data-screen="screen1" class="showcase-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-blue-600 text-white shadow-md">
+          Screen 1: Security Dashboard
+        </button>
+        <button data-screen="screen2" class="showcase-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+          Screen 2: Transaction Ledger
+        </button>
+        <button data-screen="screen3" class="showcase-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+          Screen 3: Analytics & Threat Summary
+        </button>
+        <button data-screen="screen4" class="showcase-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+          Screen 4: Multi-Bank Accounts
+        </button>
+      </div>
+
+      <!-- Showcase Frame -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: Explanatory Metadata -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-md">
+            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Active Screen</span>
+            <h3 id="showcase-active-title" class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Security Dashboard</h3>
+            <p id="showcase-active-subtitle" class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+              Real-time security overview showing login attempts, device sessions, spoof detection status, and aggregated financial summary.
+            </p>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60 space-y-3">
+              <div class="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold">✓</span>
+                <span>Sub-millisecond on-device tokenization</span>
+              </div>
+              <div class="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold">✓</span>
+                <span>Automatic sender ID whitelist cross-check</span>
+              </div>
+              <div class="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold">✓</span>
+                <span>Configurable rule engine for Wolaita Sodo banks</span>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <a href="#download" class="open-download-modal inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                Install on your device (APK v1.0) →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: The Dynamic Phone Showcase Frame -->
+        <div class="lg:col-span-7 flex justify-center">
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              
+              <div class="phone-notch">
+                <div class="phone-sensor"></div>
+                <div class="phone-lens"></div>
+              </div>
+
+              <div class="pt-2 px-6 flex justify-between items-center text-[11px] font-semibold text-slate-700 dark:text-slate-300 z-40 select-none">
+                <span>09:41</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] text-slate-400">Ethio Telecom</span>
+                  <div class="w-4 h-2 rounded-sm border border-current p-0.5 flex items-center">
+                    <div class="h-full w-full bg-current rounded-2xs"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dynamic Screen Container -->
+              <div id="showcase-screen-content" class="flex-1 overflow-y-auto no-scrollbar transition-opacity duration-200">
+                <!-- Dynamically swapped by showcase tabs in js/app.js -->
+              </div>
+
+              <div class="h-12 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 flex justify-around items-center text-slate-400 text-xs px-2">
+                <div class="flex flex-col items-center text-blue-600 dark:text-blue-400">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                  <span class="text-[9px] font-bold">Summary</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                  <span class="text-[9px]">Ledger</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+                  <span class="text-[9px]">Analytics</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                  <span class="text-[9px]">Settings</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       11. SUPPORTED BANKS IN WOLAITA SODO
+       ======================================================================== -->
+  <section id="banks" class="py-20 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">
+          Local Compatibility
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Supported Banks in Wolaita Sodo
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          The parser maintains verified sender ID whitelists and custom lexical templates for every major financial institution serving Wolaita Sodo.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-purple-950/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/cbe.svg" alt="Commercial Bank of Ethiopia" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Commercial Bank of Ethiopia</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">CBE Core Accounts, ATM Debits, Salary Credits & P2P transfers.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: CBE / 888</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-purple-900/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/cbe-birr.svg" alt="CBE Birr" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">CBE Birr</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Mobile wallet transfers, QR merchant payments, and utility cash-outs.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: CBE_BIRR</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-sky-900/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/telebirr.svg" alt="Telebirr" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Telebirr</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ethio Telecom airtime, utility bills, merchant payments, and cash in/out.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: 127 / Telebirr</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-sky-900/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/dashen.svg" alt="Dashen Bank" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Dashen Bank</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Amole digital payments, core banking alerts, and device login notifications.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: DASHEN</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-zinc-900/30 p-1.5 flex items-center justify-center border border-amber-500/20">
+                <img src="assets/banks/abyssinia.svg" alt="Bank of Abyssinia" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Bank of Abyssinia</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Apollo digital accounts, BoA card POS transactions, and ATM withdrawals.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: BOA / 8181</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-blue-900/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/awash.svg" alt="Awash Bank" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Awash Bank</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Retail savings accounts, AwashBirr Pro notifications, and cross-bank transfers.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: AWASH_BANK</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-emerald-900/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/coop.svg" alt="Cooperative Bank of Oromia" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Cooperative Bank</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Coopay-Ebirr wallet transactions, micro-finance credits, and account alerts.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: COOP_BANK</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+        <div class="bank-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-emerald-950/20 p-1.5 flex items-center justify-center">
+                <img src="assets/banks/mpesa.svg" alt="M-PESA Ethiopia" class="w-full h-full object-contain">
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Whitelisted
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">M-PESA Ethiopia</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Safaricom P2P money transfers, merchant payments, and agent cash in/out.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-medium text-slate-400 flex items-center justify-between">
+            <span>Sender: MPESA</span>
+            <span class="text-emerald-500 font-bold">Verified</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       12. FAQ SECTION
+       ======================================================================== -->
+  <section id="faq" class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center space-y-4 mb-16">
+        <span class="text-xs font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-full">
+          Frequently Asked Questions
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Clear Answers on Security & Functionality
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+          Everything you need to know about BankiyeMonitor's sender verification, privacy model, and alert scheduling.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <div class="faq-item rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden transition">
+          <button class="faq-header w-full p-6 text-left flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">How does BankiyeMonitor detect spoofed sender IDs?</span>
+            <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/40 pt-4">
+            Rather than blindly trusting the display name printed on your screen, the parser cross-references incoming message headers against a maintained whitelist of verified SMS gateway identifiers for banks in Wolaita Sodo. If an SMS claims to be from "CBE" or "Dashen" but originates from an unverified mobile number or spoofing service, the parser quarantines it and raises a security alert.
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden transition">
+          <button class="faq-header w-full p-6 text-left flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Does BankiyeMonitor require my bank password or PIN?</span>
+            <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/40 pt-4">
+            <strong>No, absolutely never.</strong> BankiyeMonitor does not connect to your bank accounts directly and will never ask for your passwords, ATM PINs, OTP codes, or online banking credentials. It operates solely by reading and structuring the confirmation SMS text messages that your bank or mobile wallet already sends to your phone.
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden transition">
+          <button class="faq-header w-full p-6 text-left flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">What happens when a bank tweaks their SMS message wording?</span>
+            <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/40 pt-4">
+            The parser uses a configurable, dynamic rule engine. Unlike hardcoded parsers that break whenever a bank adjusts their SMS template, BankiyeMonitor's rule definitions can be updated dynamically in the background without requiring a full app reinstall or Play Store review.
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden transition">
+          <button class="faq-header w-full p-6 text-left flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Does it work offline without mobile data or Wi-Fi?</span>
+            <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/40 pt-4">
+            <strong>Yes, 100%.</strong> You do not need active mobile data, an Ethio Telecom package, or Wi-Fi. Because SMS messages arrive over GSM cellular signals, BankiyeMonitor processes incoming texts locally on your phone processor and saves parsed records in an encrypted SQLite database on your device.
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden transition">
+          <button class="faq-header w-full p-6 text-left flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">How does the Alert Scheduler work?</span>
+            <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/40 pt-4">
+            You choose how often you want to receive your executive summaries: <strong>Daily</strong> (recommended for business owners with dozens of daily transfers), <strong>Weekly</strong> (recommended for personal accounts), <strong>Monthly</strong> (for savers), or <strong>Yearly</strong> (for tax audits). When the interval fires, the app synthesizes cash flow, counterparty rankings, and security alerts into one clean notification.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       13. BETA DOWNLOAD SECTION
+       ======================================================================== -->
+  <section id="download" class="py-20 md:py-28 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white p-8 sm:p-14 shadow-2xl border border-blue-400/30">
+        
+        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          
+          <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-blue-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Beta Program Now Live in Wolaita Sodo</span>
+              <span class="text-white/40">•</span>
+              <span class="font-mono text-emerald-300">v1.0-beta</span>
+            </div>
+
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+              Join the BankiyeMonitor Beta Program
+            </h2>
+
+            <p class="text-base sm:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
+              Help shape the future of banking security and executive financial monitoring in Wolaita Sodo. Download the APK directly and get an intelligent second set of eyes on every SMS.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <a href="downloads/bankiye-monitor-v1.0-beta.apk" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-white text-blue-900 hover:bg-blue-50 text-base font-semibold transition-all shadow-xl hover:shadow-2xl" download>
+    <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none">
+        <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1.4491 1 1.0002 0.5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1.4491 1 1.0002 0.5517-.4484 1.０００３-１ １．０００３" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+    </svg>
+    <span>Download APK (18.4 MB)</span>
+</a>
+
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-blue-900/60 hover:bg-blue-900/90 text-white border border-white/20 text-base font-bold transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span>GitHub Release</span>
+              </a>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs text-blue-200/80 pt-2 font-mono">
+              <span>Version: <strong>v1.0-beta</strong></span>
+              <span>•</span>
+              <span>Target: <strong>Android 8.0+</strong></span>
+              <span>•</span>
+              <span>Architecture: <strong>Universal</strong></span>
+            </div>
+
+          </div>
+
+          <!-- QR Code Preview Card -->
+          <div class="lg:col-span-4 flex justify-center">
+            <div class="p-6 rounded-2xl bg-white text-slate-900 shadow-xl text-center max-w-xs w-full">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Scan to Install on Mobile</span>
+              
+              <div class="w-44 h-44 mx-auto p-2 border-2 border-slate-900 rounded-xl flex items-center justify-center bg-slate-50">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                  <path fill="#0F172A" d="M0,0 h30 v30 h-30 z M5,5 h20 v20 h-20 z M10,10 h10 v10 h-10 z"/>
+                  <path fill="#0F172A" d="M70,0 h30 v30 h-30 z M75,5 h20 v20 h-20 z M80,10 h10 v10 h-10 z"/>
+                  <path fill="#0F172A" d="M0,70 h30 v30 h-30 z M5,75 h20 v20 h-20 z M10,80 h10 v10 h-10 z"/>
+                  <rect x="36" y="8" width="6" height="6" fill="#0F172A"/>
+                  <rect x="48" y="14" width="6" height="6" fill="#0F172A"/>
+                  <rect x="56" y="8" width="6" height="6" fill="#0F172A"/>
+                  <rect x="36" y="24" width="6" height="6" fill="#0F172A"/>
+                  <rect x="48" y="32" width="6" height="6" fill="#0F172A"/>
+                  <rect x="8" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="20" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="32" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="44" y="44" width="12" height="12" fill="#2563EB"/>
+                  <rect x="64" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="76" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="88" y="44" width="6" height="6" fill="#0F172A"/>
+                  <rect x="40" y="60" width="6" height="6" fill="#0F172A"/>
+                  <rect x="52" y="66" width="6" height="6" fill="#0F172A"/>
+                  <rect x="68" y="60" width="6" height="6" fill="#0F172A"/>
+                  <rect x="80" y="72" width="6" height="6" fill="#0F172A"/>
+                  <rect x="90" y="84" width="6" height="6" fill="#0F172A"/>
+                  <rect x="40" y="80" width="6" height="6" fill="#0F172A"/>
+                  <rect x="56" y="88" width="6" height="6" fill="#0F172A"/>
+                </svg>
+              </div>
+
+              <p class="text-[11px] font-semibold text-slate-600 mt-3">Direct Android Package Link</p>
+              <span class="inline-block px-2 py-0.5 mt-1 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">100% Virus & Malware Free</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       14. FOOTER
+       ======================================================================== -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800/80 pt-16 pb-12 relative z-10 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-100 dark:border-slate-800/80">
+        
+        <div class="lg:col-span-2 space-y-4">
+          <a href="#" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-600/10 p-1 flex items-center justify-center">
+              <img src="assets/logo.png" alt="BM" class="w-full h-full object-contain">
+            </div>
+            <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Bankiye<span class="text-blue-600 dark:text-blue-400">Monitor</span>
+            </span>
+          </a>
+
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm">
+            Automatic SMS parsing, sender ID spoof detection, and scheduled executive summaries for bank customers in Wolaita Sodo, Ethiopia.
+          </p>
+
+          <div class="flex items-center gap-2 pt-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Security Engine Active
+            </span>
+            <span class="text-xs text-slate-400">Wolaita Sodo, Ethiopia 🇪🇹</span>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider block">Product</span>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            <li><a href="#problem" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Problem Statement</a></li>
+            <li><a href="#solution" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Executive Summary</a></li>
+            <li><a href="#engine" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Intelligence Engine</a></li>
+            <li><a href="#scheduler" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Alert Scheduler</a></li>
+            <li><a href="#banks" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Supported Banks</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider block">Security</span>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            <li><a href="#engine" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Sender ID Whitelist</a></li>
+            <li><a href="#engine" class="hover:text-blue-600 dark:hover:text-blue-400 transition">On-Device Privacy</a></li>
+            <li><a href="#who-it-helps" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Commercial Bank API</a></li>
+            <li><a href="#faq" class="hover:text-blue-600 dark:hover:text-blue-400 transition">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider block">Audience</span>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            <li><a href="#who-it-helps" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Business Owners</a></li>
+            <li><a href="#who-it-helps" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Personal Accounts</a></li>
+            <li><a href="#who-it-helps" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Commercial Banks</a></li>
+            <li><a href="#download" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Beta Program</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+        <p>© 2026 BankiyeMonitor Project. Built for Wolaita Sodo Banking Security.</p>
+        <p class="flex items-center gap-1.5">
+          <span>Crafted with pride in Ethiopia</span>
+          <span>•</span>
+          <span class="text-slate-400">SMS Security Gatekeeper</span>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODAL 1: DOWNLOAD BETA APK
+       ======================================================================== -->
+  <div id="download-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
+    <div class="modal-container w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl relative">
+      
+      <button class="close-download-modal absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="flex items-center gap-3.5 mb-5">
+        <div class="w-12 h-12 rounded-2xl bg-blue-600/10 p-1 flex items-center justify-center shadow-md">
+          <img src="assets/logo.png" alt="BM" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Download BankiyeMonitor Beta</h3>
+          <span class="text-xs text-blue-600 dark:text-blue-400 font-mono font-semibold">BankiyeMonitor-v1.0-beta.apk</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 text-center mb-5">
+        <div>
+          <span class="text-[10px] text-slate-400 block font-semibold">FILE SIZE</span>
+          <span class="text-xs font-bold text-slate-900 dark:text-white">18.4 MB</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 block font-semibold">MIN OS</span>
+          <span class="text-xs font-bold text-slate-900 dark:text-white">Android 8.0+</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 block font-semibold">LICENSE</span>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Free Beta</span>
+        </div>
+      </div>
+
+      <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 mb-6 bg-blue-50/50 dark:bg-blue-950/20 p-4 rounded-2xl border border-blue-200/50 dark:border-blue-800/30">
+        <p class="font-bold text-slate-900 dark:text-white">Quick Sideload Steps:</p>
+        <p>1. Tap the download button below to save the APK file.</p>
+        <p>2. Open your download notification and allow <em>Install unknown apps</em> for your browser.</p>
+        <p>3. Launch BankiyeMonitor and grant READ_SMS permission to start on-device parsing.</p>
+      </div>
+
+      <div id="download-progress-container" class="hidden mb-4">
+        <div class="flex justify-between text-xs font-bold mb-1">
+          <span id="download-progress-text" class="text-blue-600 dark:text-blue-400">Starting download...</span>
+          <span class="text-slate-400 font-mono">18.4 MB</span>
+        </div>
+        <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+          <div id="download-progress-bar" class="bg-blue-600 h-full rounded-full transition-all duration-150" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <button id="trigger-download-apk" class="w-full py-3.5 px-4 rounded-xl btn-primary font-bold text-sm flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Start Instant Download</span>
+        </button>
+
+        <p class="text-[11px] text-center text-slate-400 font-mono">
+          SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: WATCH DEMO WALKTHROUGH
+       ======================================================================== -->
+  <div id="demo-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/85 backdrop-blur-md">
+    <div class="modal-container w-full max-w-2xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl relative">
+      
+      <button class="close-demo-modal absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="mb-4">
+        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Interactive Video Walkthrough</span>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-1">How BankiyeMonitor Secures Banking in Wolaita Sodo</h3>
+      </div>
+
+      <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-6 text-center">
+        <div class="absolute inset-0 bg-gradient-to-tr from-blue-900/40 via-transparent to-emerald-900/30"></div>
+        
+        <div class="relative z-10 max-w-md space-y-3">
+          <div class="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-xl shadow-blue-500/40 animate-pulse">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+          </div>
+          <h4 class="text-base font-bold text-white">Security & Parser Walkthrough</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Watch how incoming bank alerts from CBE, Dashen, and Telebirr are tokenized, checked against sender ID whitelists, and scheduled into clear Executive Summaries.
+          </p>
+          <div class="pt-2">
+            <a href="#download" class="open-download-modal inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-primary text-xs font-bold">
+              Download Beta APK (v1.0)
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
