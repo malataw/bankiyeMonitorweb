@@ -1013,17 +1013,22 @@ function initDownloadModal() {
       let progress = 0;
       const interval = setInterval(() => {
         progress += Math.floor(Math.random() * 20) + 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          progressBar.style.width = '100%';
-          if (progressText) progressText.textContent = 'Download Complete! (18.4 MB)';
-          triggerDummyApkDownload();
-          setTimeout(() => {
-            startDownloadBtn.disabled = false;
-            startDownloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            startDownloadBtn.textContent = 'Downloaded Successfully ✓';
-          }, 1000);
+        if (progress >= 100) { progress = 100; clearInterval(interval); progressBar.style.width = '100%'; if (progressText) progressText.textContent = 'Download Complete! (18.4 MB)';
+// --- ADD REAL APK DOWNLOAD HERE ---
+const downloadLink = document.createElement('a');
+downloadLink.href = 'downloads/bankiyemonitordown.apk';
+downloadLink.download = 'bankiyemonitordown.apk';
+document.body.appendChild(downloadLink);
+downloadLink.click();
+document.body.removeChild(downloadLink);
+// ----------------------------------
+
+setTimeout(() => {
+    startDownloadBtn.disabled = false;
+    startDownloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    startDownloadBtn.textContent = 'Downloaded Successfully ✓';
+}, 1000);
+}
         } else {
           progressBar.style.width = `${progress}%`;
           if (progressText) progressText.textContent = `Downloading... ${progress}%`;
