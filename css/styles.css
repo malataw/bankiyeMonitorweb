@@ -190,7 +190,7 @@ body {
 /* Phone Dynamic Island / Camera Notch */
 .phone-notch {
   position: absolute;
-  top: 12px;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: 90px;
