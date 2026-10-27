@@ -244,10 +244,6 @@
           <!-- Ambient Glow Backdrop -->
           <div class="absolute w-72 h-72 bg-gradient-to-tr from-blue-600 to-emerald-400 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
 
-          <!-- Dynamic Floating Incoming SMS Banner -->
-          <div id="hero-incoming-toast" class="absolute -top-6 left-1/2 -translate-x-1/2 sm:-left-6 sm:translate-x-0 z-30 w-full max-w-xs pointer-events-none">
-            <!-- Dynamically populated by js/app.js -->
-          </div>
 
           <!-- Realistic Android Phone Frame -->
           <div class="phone-mockup">
@@ -258,6 +254,14 @@
                 <div class="phone-sensor"></div>
                 <div class="phone-lens"></div>
               </div>
+                 
+          <!-- Dynamic Floating Incoming SMS Banner -->
+          <div id="hero-incoming-toast" class="absolute top-4 left-4 z-40 -translate-x-1/2 sm:-left-6 sm:translate-x-0 z-30 w-full max-w-xs pointer-events-none">
+            <!-- Dynamically populated by js/app.js -->
+             <div class="relative z-30 bg-slate-900/95 backdrop-blur-xl border border-red-500/40 rounded-2xl p-3 shadow-xl mb-3"> </div>
+    <!-- Your notification content -->
+
+          </div>
 
               <!-- Android Status Bar -->
               <div class="pt-2 px-6 flex justify-between items-center text-[11px] font-semibold text-slate-700 dark:text-slate-300 z-40 select-none">
