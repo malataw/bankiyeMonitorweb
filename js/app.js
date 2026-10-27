@@ -6,12 +6,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
-  initHeroToaster();
   initShowcaseTabs();
   initSmsParserPlayground();
   initSearchDemo();
   initFaqAccordion();
-  initDownloadModal();
+  initDirectDownload();
   initDemoModal();
   initAlertSchedulerDemo();
 });
@@ -115,92 +114,7 @@ function updateScrollSpy() {
 }
 
 /* ==========================================================================
-   3. Simulated Incoming Hero SMS Toaster (Security-Focused)
-   ========================================================================== */
-const simulatedNotifications = [
-  {
-    bank: 'Dashen Bank',
-    logo: 'assets/banks/dashen.svg',
-    time: 'Just now',
-    text: 'Dear Customer, A new device has logged into your account from Chrome/Windows. If this was not you, call 0461-123-456.',
-    parsed: '🔴 New Device Login Detected • Security Alert',
-    threat: true
-  },
-  {
-    bank: 'Commercial Bank of Ethiopia',
-    logo: 'assets/banks/cbe.svg',
-    time: '2m ago',
-    text: 'A/C 100028472910 Credited with ETB 12,500.00 from MOENCO ETHIOPIA. Ref: CBE948201',
-    parsed: '+ETB 12,500.00 • Salary / Income',
-    threat: false
-  },
-  {
-    bank: 'Telebirr',
-    logo: 'assets/banks/telebirr.svg',
-    time: '8m ago',
-    text: '⚠️ Your OTP is 482910. If you did not request this code, your account may be compromised. Call 127 immediately.',
-    parsed: '🔴 Unrequested OTP • Possible Credential Theft',
-    threat: true
-  },
-  {
-    bank: 'Awash Bank',
-    logo: 'assets/banks/awash.svg',
-    time: '1h ago',
-    text: 'You have received ETB 4,200.00 from Aster Mamo into AwashBirr wallet.',
-    parsed: '+ETB 4,200.00 • P2P Transfer',
-    threat: false
-  },
-  {
-    bank: '⚠ SPOOFED SENDER',
-    logo: 'assets/banks/cbe.svg',
-    time: 'Just now',
-    text: 'URGENT: Your CBE account will be suspended. Verify your credentials at cbe-secure-login.com/verify. Click now!',
-    parsed: '🚨 SPOOFED SMS BLOCKED • Sender ID Not on Whitelist',
-    threat: true
-  }
-];
-
-function initHeroToaster() {
-  const toastContainer = document.getElementById('hero-incoming-toast');
-  if (!toastContainer) return;
-
-  let currentIndex = 0;
-
-  function showNextNotification() {
-    const item = simulatedNotifications[currentIndex];
-    const isThreat = item.threat;
-    
-    toastContainer.innerHTML = `
-      <div class="sms-toast-animate flex items-start gap-3 p-3 ${isThreat ? 'bg-rose-50/95 dark:bg-rose-950/80 border-rose-500/40' : 'bg-white/95 dark:bg-slate-900/95 border-blue-500/30'} backdrop-blur-md rounded-2xl border shadow-xl max-w-sm">
-        <div class="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 p-1 ${isThreat ? 'bg-rose-100 dark:bg-rose-900/50 border-rose-300 dark:border-rose-700' : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700'} border">
-          ${isThreat && item.bank.includes('SPOOF') ? '<div class="w-full h-full rounded-lg bg-rose-500 flex items-center justify-center text-white text-xs font-bold">⚠</div>' : `<img src="${item.logo}" alt="${item.bank}" class="w-full h-full object-contain">`}
-        </div>
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center justify-between gap-1 mb-0.5">
-            <span class="text-xs font-bold ${isThreat ? 'text-rose-800 dark:text-rose-200' : 'text-slate-900 dark:text-white'} truncate">${item.bank}</span>
-            <span class="text-[10px] ${isThreat ? 'text-rose-600 dark:text-rose-400' : 'text-blue-600 dark:text-blue-400'} font-medium">${item.time}</span>
-          </div>
-          <p class="text-[11px] ${isThreat ? 'text-rose-700 dark:text-rose-300' : 'text-slate-600 dark:text-slate-300'} leading-snug line-clamp-2">${item.text}</p>
-          <div class="mt-1.5 flex items-center gap-1.5">
-            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold ${isThreat ? 'bg-rose-500/15 text-rose-700 dark:text-rose-300' : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'}">
-              ${isThreat ? '<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>' : '<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'}
-              ${isThreat ? 'Security Alert' : 'Auto-Parsed'}
-            </span>
-            <span class="text-[10px] font-medium ${isThreat ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400'}">${item.parsed}</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    currentIndex = (currentIndex + 1) % simulatedNotifications.length;
-  }
-
-  showNextNotification();
-  setInterval(showNextNotification, 5500);
-}
-
-/* ==========================================================================
-   4. Application Showcase Tab Switching
+   3. Application Showcase Tab Switching
    ========================================================================== */
 const showcaseScreens = {
   screen1: {
@@ -984,77 +898,18 @@ function initFaqAccordion() {
 }
 
 /* ==========================================================================
-   8. Download Beta APK Modal
+   8. Direct APK Download (No Modals)
    ========================================================================== */
-function initDownloadModal() {
-  const modal = document.getElementById('download-modal');
-  const openButtons = document.querySelectorAll('.open-download-modal');
-  const closeButtons = document.querySelectorAll('.close-download-modal');
-  const startDownloadBtn = document.getElementById('trigger-download-apk');
-  const downloadProgressBox = document.getElementById('download-progress-container');
-  const progressBar = document.getElementById('download-progress-bar');
-  const progressText = document.getElementById('download-progress-text');
-
-  if (!modal) return;
-
-  function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
-
-  openButtons.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openModal(); }));
-  closeButtons.forEach(btn => btn.addEventListener('click', closeModal));
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-  if (startDownloadBtn && progressBar && downloadProgressBox) {
-    startDownloadBtn.addEventListener('click', () => {
-      downloadProgressBox.classList.remove('hidden');
-      startDownloadBtn.disabled = true;
-      startDownloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 20) + 10;
-        if (progress >= 100) { progress = 100; clearInterval(interval); progressBar.style.width = '100%'; if (progressText) progressText.textContent = 'Download Complete! (18.4 MB)';
-// --- ADD REAL APK DOWNLOAD HERE ---
-const downloadLink = document.createElement('a');
-downloadLink.href = 'downloads/bankiyemonitordownload.apk';
-downloadLink.download = 'bankiyemonitordownload.apk';
-document.body.appendChild(downloadLink);
-downloadLink.click();
-document.body.removeChild(downloadLink);
-// ----------------------------------
-
-setTimeout(() => {
-    startDownloadBtn.disabled = false;
-    startDownloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-    startDownloadBtn.textContent = 'Downloaded Successfully ✓';
-}, 1000);
-        } else {
-          progressBar.style.width = `${progress}%`;
-          if (progressText) progressText.textContent = `Downloading... ${progress}%`;
-        }
-      }, 150);
+function initDirectDownload() {
+  // Direct downloads are handled natively by HTML5 download attributes on:
+  // <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk">
+  // No event cancellation or synthetic blobs, ensuring the authentic 29.4 MB APK binary downloads.
+  const downloadLinks = document.querySelectorAll('.direct-download-link');
+  downloadLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      console.log('Initiating authentic BankiyeMonitor-v1.0-beta.apk direct download (29.4 MB)...');
     });
-  }
-}
-        
-function triggerDummyApkDownload() {
-  const content = `# BankiyeMonitor Android Beta Package (v1.0-beta)
-Package: com.bankiyemonitor.app
-Target SDK: 34 (Android 14) | Min SDK: 26 (Android 8.0)
-SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-
-Installation: Grant READ_SMS permission on first launch.
-All processing is 100% on-device. No bank passwords required.`;
-
-  const blob = new Blob([content], { type: 'application/vnd.android.package-archive' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'BankiyeMonitor-v1.0-beta.apk';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  });
 }
 
 /* ==========================================================================
