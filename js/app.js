@@ -1016,8 +1016,8 @@ function initDownloadModal() {
         if (progress >= 100) { progress = 100; clearInterval(interval); progressBar.style.width = '100%'; if (progressText) progressText.textContent = 'Download Complete! (18.4 MB)';
 // --- ADD REAL APK DOWNLOAD HERE ---
 const downloadLink = document.createElement('a');
-downloadLink.href = 'downloads/bankiyemonitordown.apk';
-downloadLink.download = 'bankiyemonitordown.apk';
+downloadLink.href = 'downloads/bankiyemonitordownload.apk';
+downloadLink.download = 'bankiyemonitordownload.apk';
 document.body.appendChild(downloadLink);
 downloadLink.click();
 document.body.removeChild(downloadLink);
@@ -1028,7 +1028,6 @@ setTimeout(() => {
     startDownloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     startDownloadBtn.textContent = 'Downloaded Successfully ✓';
 }, 1000);
-}
         } else {
           progressBar.style.width = `${progress}%`;
           if (progressText) progressText.textContent = `Downloading... ${progress}%`;
@@ -1037,7 +1036,7 @@ setTimeout(() => {
     });
   }
 }
-
+        
 function triggerDummyApkDownload() {
   const content = `# BankiyeMonitor Android Beta Package (v1.0-beta)
 Package: com.bankiyemonitor.app
