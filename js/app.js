@@ -167,7 +167,7 @@ const showcaseScreens = {
         </div>
 
         <!-- Weekly Executive Summary Card -->
-        <div class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-900 text-white shadow-lg">
+        <div class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-[#0C88BE] via-[#09597E] to-[#073247] border border-[#41C0F2]/30 text-white shadow-lg">
           <div class="flex justify-between items-start">
             <div>
               <span class="text-[10px] font-medium text-blue-200">Weekly Executive Summary</span>
@@ -251,7 +251,7 @@ const showcaseScreens = {
 
             <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/50 shadow-sm">
               <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950/40 p-1 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-[#41C0F2]/10 border border-[#41C0F2]/20 p-1 flex items-center justify-center">
                   <img src="assets/banks/cbe.svg" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -323,7 +323,7 @@ const showcaseScreens = {
 
           <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/50 shadow-sm flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950/40 p-1 flex items-center justify-center">
+              <div class="w-8 h-8 rounded-lg bg-[#41C0F2]/10 border border-[#41C0F2]/20 p-1 flex items-center justify-center">
                 <img src="assets/banks/cbe.svg" class="w-full h-full object-contain">
               </div>
               <div>
@@ -453,20 +453,20 @@ const showcaseScreens = {
         </div>
 
         <div class="space-y-2.5">
-          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-purple-900/90 to-purple-800 text-white shadow-md relative overflow-hidden">
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-[#0C88BE] to-[#073247] border border-[#41C0F2]/30 text-white shadow-md relative overflow-hidden">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-[9px] font-bold uppercase tracking-wider text-purple-200">Commercial Bank of Ethiopia</span>
-                <p class="text-xs text-purple-100 font-mono mt-0.5">A/C •••• 4829 • <span class="text-emerald-300 font-bold">✓ Verified Sender</span></p>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-[#A2E2FB]">Commercial Bank of Ethiopia</span>
+                <p class="text-xs text-white/90 font-mono mt-0.5">A/C •••• 4829 • <span class="text-emerald-300 font-bold">✓ Verified Sender</span></p>
               </div>
               <img src="assets/banks/cbe.svg" class="w-8 h-8 rounded-lg bg-white/10 p-1">
             </div>
             <div class="mt-3 flex items-end justify-between">
               <div>
-                <span class="text-[10px] text-purple-200 block">Balance</span>
+                <span class="text-[10px] text-[#A2E2FB] block">Balance</span>
                 <span class="text-base font-extrabold">ETB 42,120.00</span>
               </div>
-              <span class="text-[10px] text-purple-200">Last: 2h ago</span>
+              <span class="text-[10px] text-[#A2E2FB]">Last: 2h ago</span>
             </div>
           </div>
 
@@ -487,10 +487,10 @@ const showcaseScreens = {
             </div>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-blue-900 to-indigo-950 text-white shadow-md">
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-[#0B2538] to-[#051824] border border-[#41C0F2]/20 text-white shadow-md">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-[9px] font-bold uppercase tracking-wider text-blue-200">Dashen Bank</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-[#A2E2FB]">Dashen Bank</span>
                 <p class="text-xs text-blue-100 font-mono mt-0.5">A/C •••• 0193 • <span class="text-emerald-300 font-bold">✓ Verified Sender</span></p>
               </div>
               <img src="assets/banks/dashen.svg" class="w-8 h-8 rounded-lg bg-white/10 p-1">
@@ -504,10 +504,10 @@ const showcaseScreens = {
             </div>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-blue-800 to-indigo-900 text-white shadow-md">
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-[#0E3A54] to-[#082232] border border-[#41C0F2]/20 text-white shadow-md">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-[9px] font-bold uppercase tracking-wider text-blue-200">Awash Bank</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-[#A2E2FB]">Awash Bank</span>
                 <p class="text-xs text-blue-100 font-mono mt-0.5">A/C •••• 0132 • <span class="text-emerald-300 font-bold">✓ Verified Sender</span></p>
               </div>
               <img src="assets/banks/awash.svg" class="w-8 h-8 rounded-lg bg-white/10 p-1">
@@ -1017,10 +1017,10 @@ function initAlertSchedulerDemo() {
 
     buttons.forEach(btn => {
       if (btn.dataset.freq === key) {
-        btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        btn.classList.add('bg-[#41C0F2]', 'text-[#052438]', 'font-bold', 'shadow-md');
         btn.classList.remove('bg-slate-800', 'text-slate-300');
       } else {
-        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+        btn.classList.remove('bg-[#41C0F2]', 'text-[#052438]', 'font-bold', 'shadow-md');
         btn.classList.add('bg-slate-800', 'text-slate-300');
       }
     });
