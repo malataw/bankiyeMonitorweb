@@ -363,6 +363,21 @@ html {
   transform: translateY(-2px);
 }
 
+/* Always-On Floating Return To Home Button */
+#return-to-home {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px rgba(65, 192, 242, 0.2);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#return-to-home:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 30px -5px rgba(65, 192, 242, 0.4);
+}
+
+#return-to-home:active {
+  transform: translateY(0) scale(0.96);
+}
+
 
 
 /* Subtle Shimmer for Beta Badge */
