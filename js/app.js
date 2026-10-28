@@ -75,21 +75,42 @@ function initNavigation() {
   });
 
   if (mobileMenuBtn && mobileMenuDrawer) {
-    mobileMenuBtn.addEventListener('click', () => {
-      const isOpen = !mobileMenuDrawer.classList.contains('hidden');
-      if (isOpen) {
-        mobileMenuDrawer.classList.add('hidden');
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-      } else {
+    const barsIcon = mobileMenuBtn.querySelector('.menu-icon-bars');
+    const closeIcon = mobileMenuBtn.querySelector('.menu-icon-close');
+
+    function toggleMenu(open) {
+      if (open) {
         mobileMenuDrawer.classList.remove('hidden');
         mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        if (barsIcon) barsIcon.classList.add('hidden');
+        if (closeIcon) closeIcon.classList.remove('hidden');
+      } else {
+        mobileMenuDrawer.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        if (barsIcon) barsIcon.classList.remove('hidden');
+        if (closeIcon) closeIcon.classList.add('hidden');
       }
+    }
+
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !mobileMenuDrawer.classList.contains('hidden');
+      toggleMenu(!isOpen);
     });
 
     mobileNavLinks.forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenuDrawer.classList.add('hidden');
+        toggleMenu(false);
       });
+    });
+
+    // Close when clicking outside mobile drawer
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuDrawer.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        if (!mobileMenuDrawer.classList.contains('hidden')) {
+          toggleMenu(false);
+        }
+      }
     });
   }
 }

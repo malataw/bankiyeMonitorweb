@@ -68,23 +68,23 @@
        ======================================================================== -->
   <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
         <!-- Brand Logo with Provided Shield Logo -->
-        <a href="#" class="flex items-center gap-3 group">
-          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 p-1 flex items-center justify-center transform group-hover:scale-105 transition-transform">
+        <a href="#" class="flex items-center gap-2.5 sm:gap-3 group">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 p-1 flex items-center justify-center transform group-hover:scale-105 transition-transform flex-shrink-0">
             <img src="assets/logo.png" alt="BankiyeMonitor Logo" class="w-full h-full object-contain drop-shadow-md">
           </div>
           <div class="flex flex-col">
-            <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center">
+            <span class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center">
               Bankiye<span class="text-blue-600 dark:text-blue-400">Monitor</span>
             </span>
-            <span class="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest -mt-1"></span>
+            <span class="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest -mt-0.5">Wolaita Sodo</span>
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
-        <nav class="hidden lg:flex items-center gap-7">
+        <!-- Desktop Navigation Links (>=1024px only) -->
+        <nav class="hidden lg:flex items-center gap-6 xl:gap-7">
           <a href="#problem" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Overview</a>
           <a href="#solution" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Features</a>
           <a href="#engine" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Intelligence Engine</a>
@@ -94,8 +94,8 @@
           <a href="#faq" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">FAQ</a>
         </nav>
 
-        <!-- Right Action Buttons -->
-        <div class="hidden md:flex items-center gap-4">
+        <!-- Right Action Buttons (Desktop >=1024px only) -->
+        <div class="hidden lg:flex items-center gap-3">
           <!-- Dark/Light Theme Toggle -->
           <button id="theme-toggle" aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="theme-sun-icon w-5 h-5 text-amber-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,19 +106,19 @@
             </svg>
           </button>
 
-          <!-- Highlighted Beta Download Button -->
-          <a href="#download" class="open-download-modal inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-primary text-sm font-semibold tracking-wide shadow-lg group">
+          <!-- Highlighted Direct Beta Download Button -->
+          <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link inline-flex items-center gap-2 px-4 py-2.5 rounded-xl btn-primary text-sm font-semibold tracking-wide shadow-lg group">
             <svg class="w-4 h-4 text-emerald-300" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
             </svg>
             <span>Download Beta</span>
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-white/20 text-white badge-shimmer">v1.0</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-white/20 text-white badge-shimmer">29.4 MB</span>
           </a>
         </div>
 
-        <!-- Mobile Menu Toggle Button -->
-        <div class="flex items-center gap-2 lg:hidden">
-          <button id="theme-toggle-mobile" aria-label="Toggle theme" class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300">
+        <!-- Mobile Action Group (<1024px only) -->
+        <div class="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+          <button id="theme-toggle-mobile" aria-label="Toggle theme" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
             <svg class="theme-sun-icon w-4 h-4 text-amber-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
@@ -127,9 +127,12 @@
             </svg>
           </button>
           
-          <button id="mobile-menu-btn" aria-label="Open navigation menu" class="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button id="mobile-menu-btn" aria-label="Toggle navigation menu" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none">
+            <svg class="menu-icon-bars w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg class="menu-icon-close w-5 h-5 sm:w-6 sm:h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -137,19 +140,111 @@
       </div>
     </div>
 
-    <!-- Mobile Drawer Menu -->
-    <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3">
-      <a href="#problem" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Overview</a>
-      <a href="#solution" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Features</a>
-      <a href="#engine" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Intelligence Engine</a>
-      <a href="#scheduler" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Alerts</a>
-      <a href="#banks" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Supported Banks</a>
-      <a href="#who-it-helps" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Use Cases</a>
-      <a href="#faq" class="mobile-nav-link block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">FAQ</a>
-      <div class="pt-2">
-        <a href="#download" class="open-download-modal w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl btn-primary font-bold text-sm">
-          Download Beta APK (v1.0)
-        </a>
+    <!-- Systematic Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-2xl px-4 py-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
+      <div class="space-y-4">
+        <!-- Section label -->
+        <div class="flex items-center justify-between px-2 pt-1">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Navigation</span>
+          <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-semibold">v1.0 Beta</span>
+        </div>
+
+        <!-- Systematic Link List -->
+        <nav class="space-y-1">
+          <a href="#problem" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </span>
+              <span>Overview</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#solution" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </span>
+              <span>Features</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#engine" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+              </span>
+              <span>Intelligence Engine</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#scheduler" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </span>
+              <span>Alerts</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#banks" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </span>
+              <span>Supported Banks</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#who-it-helps" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </span>
+              <span>Use Cases</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#faq" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </span>
+              <span>FAQ</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </nav>
+
+        <!-- Divider -->
+        <div class="border-t border-slate-200/80 dark:border-slate-800/80 pt-3">
+          <div class="space-y-2">
+            <!-- Direct Download Button -->
+            <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl btn-primary font-bold text-sm shadow-lg shadow-blue-500/25">
+              <svg class="w-4 h-4 text-emerald-300" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+              </svg>
+              <span>Download Beta APK</span>
+              <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-white/20 text-white">29.4 MB</span>
+            </a>
+
+            <!-- GitHub Release Button -->
+            <a href="https://github.com/Nima-cyber-pizxel/BankiyeMonitor/releases/tag/v1.0-beta" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              <span>GitHub Release Notes</span>
+            </a>
+          </div>
+
+          <div class="mt-3 text-center">
+            <span class="text-[10px] text-slate-400">100% On-Device Privacy • Wolaita Sodo Banking</span>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -157,46 +252,46 @@
   <!-- ========================================================================
        2. HERO SECTION (WOLAITA SODO SECURITY FOCUS)
        ======================================================================== -->
-  <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden z-10">
+  <section class="relative pt-24 pb-14 sm:pt-32 sm:pb-20 md:pt-36 md:pb-28 overflow-hidden z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
         
         <!-- Hero Text Content (Left Col) -->
-        <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+        <div class="lg:col-span-7 text-center lg:text-left space-y-4 sm:space-y-6">
           
           <!-- Trust Pill -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full hero-badge">
-            <span class="flex h-2 w-2 relative">
+          <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full hero-badge text-xs sm:text-sm max-w-full">
+            <span class="flex h-2 w-2 relative flex-shrink-0">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
             </span>
-            <span>Built for Banks in Wolaita Sodo</span>
-            <span class="text-slate-300 dark:text-slate-600">•</span>
-            <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">SMS Parsing & Security Gatekeeper</span>
+            <span class="font-semibold text-blue-700 dark:text-blue-300">Wolaita Sodo Banking Security</span>
+            <span class="text-slate-300 dark:text-slate-600 hidden xs:inline">•</span>
+            <span class="text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-300 hidden xs:inline">SMS Parsing Engine</span>
           </div>
 
-          <!-- Headline -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+          <!-- Headline (Uniform, Proportionate Mobile Scaling) -->
+          <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.2] sm:leading-[1.14]">
             Turn chaotic bank SMS into a <span class="gradient-text-primary">Weekly Executive Summary</span> & Security Shield
           </h1>
 
           <!-- Subheadline -->
-          <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+          <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
             Banks in Wolaita Sodo rely on raw SMS that hackers can easily spoof. BankiyeMonitor applies strict lexical analysis to verify sender IDs, detect unauthorized logins, flag social engineering, and compile your entire bank activity into an actionable, scheduled executive summary.
           </p>
 
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-            <a href="#download" class="open-download-modal w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl btn-primary text-base font-bold shadow-xl shadow-blue-500/25">
-              <svg class="w-5 h-5 text-emerald-300" viewBox="0 0 24 24" fill="currentColor">
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1 sm:pt-2">
+            <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl btn-primary text-sm sm:text-base font-bold shadow-xl shadow-blue-500/25">
+              <svg class="w-5 h-5 text-emerald-300 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
               </svg>
               <span>Download Beta APK</span>
-              <span class="px-2 py-0.5 rounded-md bg-white/20 text-xs font-semibold">Free</span>
+              <span class="px-2 py-0.5 rounded-md bg-white/20 text-xs font-semibold">29.4 MB</span>
             </a>
 
-            <button class="open-demo-modal w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl btn-secondary text-base font-semibold">
-              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <button class="open-demo-modal w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 sm:px-7 sm:py-4 rounded-xl sm:rounded-2xl btn-secondary text-sm sm:text-base font-semibold">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
               </svg>
               <span>Watch Security Demo</span>
@@ -204,9 +299,9 @@
           </div>
 
           <!-- Trust Indicators Row -->
-          <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div class="pt-5 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               </div>
               <div class="text-left">
@@ -216,7 +311,7 @@
             </div>
 
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               </div>
               <div class="text-left">
@@ -225,8 +320,8 @@
               </div>
             </div>
 
-            <div class="col-span-2 sm:col-span-1 flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
               <div class="text-left">
@@ -399,18 +494,18 @@
   </section>
 
   <!-- ===================PROBLEM STATEMENT (WOLAITA SODO CONTEXT)============================ -->
-  <section id="problem" class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="problem" class="py-14 sm:py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Title -->
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-rose-500 uppercase tracking-widest bg-rose-500/10 px-3.5 py-1 rounded-full">
           The Problem in Wolaita Sodo
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Raw SMS Alerts are Insufficient for Modern Banking Security
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Banks in Wolaita Sodo currently rely on standard, unstructured SMS alerts. Hackers exploit this blind spot with fake USSDs, spoofed sender names, and credential stuffing—and the bank's alert system treats fraudulent logins the exact same as legitimate ones.
         </p>
       </div>
@@ -482,17 +577,17 @@
   </section>
 
   <!-- ============ THE SOLUTION: SMS PARSING & AGGREGATION SYSTEM ============ -->
-  <section id="solution" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="solution" class="py-14 sm:py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
           The Solution
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           What If You Received a Weekly Executive Summary?
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Instead of a chaotic feed of individual texts, BankiyeMonitor applies strict lexical analysis to extract structured fields and deliver a clear synthesized dashboard.
         </p>
       </div>
@@ -566,17 +661,17 @@
   </section>
 
   <!-- ======PARSING COMPONENT: THE INTELLIGENCE ENGINE (4 PILLARS) ======= -->
-  <section id="engine" class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="engine" class="py-14 sm:py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-full">
           The Intelligence Engine
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           A Security Gatekeeper System
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           The parser is the foundational intelligence layer that makes every feature possible, solving four critical technical challenges.
         </p>
       </div>
@@ -654,17 +749,17 @@
   </section>
 
   <!-- ======ALERT SCHEDULER SECTION (INTERACTIVE DEMO) ======================================== -->
-  <section id="scheduler" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="scheduler" class="py-14 sm:py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
           Tailored Delivery
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           The Alert Scheduler: Tailored to Your Volume
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Beyond the live summary, BankiyeMonitor includes an Alert Scheduler that pushes synthesized insights based on your exact financial habits.
         </p>
       </div>
@@ -704,17 +799,17 @@
 
 
 
-  <section class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section class="py-14 sm:py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-full">
           Comprehensive Defense
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Critical Vulnerabilities Solved
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           From social engineering to sender spoofing, see how the lexical parser protects banking customers in Wolaita Sodo.
         </p>
       </div>
@@ -789,17 +884,17 @@
   <!-- ========================================================================
        8. WHO IT CAN HELP SECTION (5 AUDIENCE SEGMENTS)
        ======================================================================== -->
-  <section id="who-it-helps" class="py-20 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="who-it-helps" class="py-14 sm:py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
           Ecosystem Impact
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Who BankiyeMonitor Helps
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Designed for everyone from local merchant shopkeepers to commercial bank compliance teams.
         </p>
       </div>
@@ -869,17 +964,17 @@
   <!-- ========================================================================
        9. LIVE SMS PARSER & SPOOF DETECTOR PLAYGROUND
        ======================================================================== -->
-  <section class="py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section class="py-14 sm:py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-14">
         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3.5 py-1 rounded-full">
           Interactive Security Sandbox
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Test the Parser & Spoof Detector in Real-Time
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Try authentic templates from Wolaita Sodo banks—or test a simulated phishing SMS to watch the sender ID whitelist quarantine it in sub-milliseconds.
         </p>
       </div>
@@ -930,17 +1025,17 @@
   <!-- ========================================================================
        10. APPLICATION SHOWCASE (INTERACTIVE SCREEN VIEWER)
        ======================================================================== -->
-  <section class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section class="py-14 sm:py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-12">
         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1 rounded-full">
           App Interface
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Explore the Android Security & Summary UI
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Switch tabs below to view the Executive Summary dashboard, transaction ledger with verification tags, and security scores.
         </p>
       </div>
@@ -989,8 +1084,8 @@
             </div>
 
             <div class="mt-6">
-              <a href="#download" class="open-download-modal inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">
-                Install on your device (APK v1.0) →
+              <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                Install on your device (APK v1.0 • 29.4 MB) →
               </a>
             </div>
           </div>
@@ -1052,17 +1147,17 @@
   <!-- ========================================================================
        11. SUPPORTED BANKS IN WOLAITA SODO
        ======================================================================== -->
-  <section id="banks" class="py-20 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="banks" class="py-14 sm:py-20 md:py-28 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+      <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4 mb-10 sm:mb-14">
         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">
           Local Compatibility
         </span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Supported Banks in Wolaita Sodo
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           The parser maintains verified sender ID whitelists and custom lexical templates for every major financial institution serving Wolaita Sodo.
         </p>
       </div>
@@ -1229,17 +1324,17 @@
   <!-- ========================================================================
        12. FAQ SECTION
        ======================================================================== -->
-  <section id="faq" class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
+  <section id="faq" class="py-14 sm:py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/50 relative z-10 border-t border-slate-200/80 dark:border-slate-800/80">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center space-y-4 mb-16">
+      <div class="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span class="text-xs font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1 rounded-full">
           Frequently Asked Questions
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Clear Answers on Security & Functionality
         </h2>
-        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400">
           Everything you need to know about BankiyeMonitor's sender verification, privacy model, and alert scheduling.
         </p>
       </div>
@@ -1304,17 +1399,17 @@
   <!-- ========================================================================
        13. BETA DOWNLOAD SECTION
        ======================================================================== -->
-  <section id="download" class="py-20 md:py-28 relative z-10">
+  <section id="download" class="py-14 sm:py-20 md:py-28 relative z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white p-8 sm:p-14 shadow-2xl border border-blue-400/30">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white p-6 sm:p-14 shadow-2xl border border-blue-400/30">
         
         <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           
-          <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+          <div class="lg:col-span-8 space-y-4 sm:space-y-6 text-center lg:text-left">
             
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-blue-200">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1323,21 +1418,21 @@
               <span class="font-mono text-emerald-300">v1.0-beta</span>
             </div>
 
-            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
               Join the BankiyeMonitor Beta Program
             </h2>
 
-            <p class="text-base sm:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
+            <p class="text-sm sm:text-base md:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
               Help shape the future of banking security and executive financial monitoring in Wolaita Sodo. Download the APK directly and get an intelligent second set of eyes on every SMS.
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <a href="downloads/bankiyeMonitordownload.apk" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-white text-blue-900 hover:bg-blue-50 text-base font-semibold transition-all shadow-xl hover:shadow-2xl" download>
-    <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none">
-        <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1.4491 1 1.0002 0.5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1.4491 1 1.０００２ ０．５５１７－０．４４８４ １．０００３－１ １．０００３" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-    </svg>
-    <span>Download APK (30.0 MB)</span>
-</a>
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+              <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl bg-white text-blue-900 hover:bg-blue-50 text-sm sm:text-base font-bold transition-all shadow-xl hover:shadow-2xl">
+                <svg class="w-5 h-5 text-blue-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5511.4482-1.0002.9993-1.0002.5516 0 1 .4491 1 1.0002 0 .5517-.4484 1.0003-1 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8559 8.125 12 8.125c-1.8565 0-3.5908.286-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+                </svg>
+                <span>Download APK (29.4 MB)</span>
+              </a>
 
               <a href="https://github.com/Nima-cyber-pizxel/BankiyeMonitor/releases/tag/v1.0-beta" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-blue-900/60 hover:bg-blue-900/90 text-white border border-white/20 text-base font-bold transition">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
@@ -1454,82 +1549,8 @@
     </div>
   </footer>
 
-  <a href="downloads/bankiyeMonitordownload.apk" 
-   class="mt-4 w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-lg shadow-blue-600/30" 
-   download>
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-    </svg>
-    <span>Download APK Now (30.0 MB)</span>
-</a>
   <!-- ========================================================================
-       MODAL 1: DOWNLOAD BETA APK
-       ======================================================================== -->
-  <div id="download-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
-    <div class="modal-container w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl relative">
-      
-      <button class="close-download-modal absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-
-      <div class="flex items-center gap-3.5 mb-5">
-        <div class="w-12 h-12 rounded-2xl bg-blue-600/10 p-1 flex items-center justify-center shadow-md">
-          <img src="assets/logo.png" alt="BM" class="w-full h-full object-contain">
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Download BankiyeMonitor Beta</h3>
-          <span class="text-xs text-blue-600 dark:text-blue-400 font-mono font-semibold">BankiyeMonitor-v1.0-beta.apk</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 text-center mb-5">
-        <div>
-          <span class="text-[10px] text-slate-400 block font-semibold">FILE SIZE</span>
-          <span class="text-xs font-bold text-slate-900 dark:text-white">30.0 MB</span>
-        </div>
-        <div>
-          <span class="text-[10px] text-slate-400 block font-semibold">MIN OS</span>
-          <span class="text-xs font-bold text-slate-900 dark:text-white">Android 8.0+</span>
-        </div>
-        <div>
-          <span class="text-[10px] text-slate-400 block font-semibold">LICENSE</span>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Free Beta</span>
-        </div>
-      </div>
-
-      <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 mb-6 bg-blue-50/50 dark:bg-blue-950/20 p-4 rounded-2xl border border-blue-200/50 dark:border-blue-800/30">
-        <p class="font-bold text-slate-900 dark:text-white">Quick Sideload Steps:</p>
-        <p>1. Tap the download button below to save the APK file.</p>
-        <p>2. Open your download notification and allow <em>Install unknown apps</em> for your browser.</p>
-        <p>3. Launch BankiyeMonitor and grant READ_SMS permission to start on-device parsing.</p>
-      </div>
-
-      <div id="download-progress-container" class="hidden mb-4">
-        <div class="flex justify-between text-xs font-bold mb-1">
-          <span id="download-progress-text" class="text-blue-600 dark:text-blue-400">Starting download...</span>
-          <span class="text-slate-400 font-mono">18.4 MB</span>
-        </div>
-        <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
-          <div id="download-progress-bar" class="bg-blue-600 h-full rounded-full transition-all duration-150" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <div class="space-y-3">
-        <button id="trigger-download-apk" class="w-full py-3.5 px-4 rounded-xl btn-primary font-bold text-sm flex items-center justify-center gap-2">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Start Instant Download</span>
-        </button>
-
-        <p class="text-[11px] text-center text-slate-400 font-mono">
-          SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        </p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================================================
-       MODAL 2: WATCH DEMO WALKTHROUGH
+       MODAL: WATCH DEMO WALKTHROUGH
        ======================================================================== -->
   <div id="demo-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/85 backdrop-blur-md">
     <div class="modal-container w-full max-w-2xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl relative">
@@ -1555,8 +1576,8 @@
             Watch how incoming bank alerts from CBE, Dashen, and Telebirr are tokenized, checked against sender ID whitelists, and scheduled into clear Executive Summaries.
           </p>
           <div class="pt-2">
-            <a href="#download" class="open-download-modal inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-primary text-xs font-bold">
-              Download Beta APK (v1.0)
+            <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk" class="direct-download-link inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-primary text-xs font-bold">
+              Download Beta APK (29.4 MB)
             </a>
           </div>
         </div>
