@@ -56,12 +56,9 @@
 </head>
 <body class="min-h-screen text-slate-800 dark:text-slate-100 bg-[#F8FAFC] dark:bg-[#090D16] selection:bg-blue-600 selection:text-white transition-colors duration-300">
 
-  <!-- Background Glowing Meshes -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-    <div class="bg-mesh mesh-blue w-[600px] h-[600px] -top-40 -left-40"></div>
-    <div class="bg-mesh mesh-green w-[500px] h-[500px] top-[40%] -right-40"></div>
-    <div class="bg-mesh mesh-amber w-[450px] h-[450px] bottom-20 left-[20%]"></div>
-  </div>
+  <!-- Precision Fintech Grid & Low Opacity Cash Symbol Watermark Background -->
+  <div class="fintech-grid-bg"></div>
+  <div class="cash-watermark-pattern"></div>
 
   <!-- ========================================================================
        1. NAVIGATION BAR
@@ -88,8 +85,8 @@
           <a href="#problem" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Overview</a>
           <a href="#solution" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Features</a>
           <a href="#engine" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Intelligence Engine</a>
-          <a href="#banks" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Supported Banks</a>
           <a href="#who-it-helps" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Use Cases</a>
+          <a href="#banks" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Supported Banks</a>
           <a href="#faq" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">FAQ</a>
         </nav>
 
@@ -180,22 +177,22 @@
             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
 
-          <a href="#banks" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
-            <span class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-              </span>
-              <span>Supported Banks</span>
-            </span>
-            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-
           <a href="#who-it-helps" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
             <span class="flex items-center gap-3">
               <span class="w-8 h-8 rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
               </span>
               <span>Use Cases</span>
+            </span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="#banks" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
+            <span class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </span>
+              <span>Supported Banks</span>
             </span>
             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
@@ -1372,8 +1369,8 @@
             <li><a href="#problem" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Overview</a></li>
             <li><a href="#solution" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Features</a></li>
             <li><a href="#engine" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Intelligence Engine</a></li>
-            <li><a href="#banks" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Supported Banks</a></li>
-            <li><a href="#who-it-helps" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Use Cases</a></li>
+            <li><a href="#who-it-helps" class="hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Use Cases</a></li>
+            <li><a href="#banks" class="hover:text-[#0C88BE] dark:hover:text-[#41C0F2] transition">Supported Banks</a></li>
           </ul>
         </div>
 
