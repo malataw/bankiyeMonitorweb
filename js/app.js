@@ -667,11 +667,11 @@ function initFaqAccordion() {
 function initDirectDownload() {
   // Direct downloads are handled natively by HTML5 download attributes on:
   // <a href="downloads/bankiyeMonitordownload.apk" download="BankiyeMonitor-v1.0-beta.apk">
-  // No event cancellation or synthetic blobs, ensuring the authentic 29.4 MB APK binary downloads.
+  // No event cancellation or synthetic blobs, ensuring the authentic 16.5 MB APK binary downloads.
   const downloadLinks = document.querySelectorAll('.direct-download-link');
   downloadLinks.forEach(link => {
     link.addEventListener('click', () => {
-      console.log('Initiating authentic BankiyeMonitor-v1.0-beta.apk direct download (29.4 MB)...');
+      console.log('Initiating authentic BankiyeMonitor-v1.0-beta.apk direct download (16.5 MB)...');
     });
   });
 }
